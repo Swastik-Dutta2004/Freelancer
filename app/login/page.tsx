@@ -1,39 +1,40 @@
-import Login from "@/components/auth/Login";
-import Register from "@/components/auth/Register";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/label";
-import Image from "next/image";
-import type { Metadata } from "next";
-import { Suspense } from "react";
-import Loading from "../(front)/loading";
+"use client"
 
-export const metadata: Metadata = {
-  title: "Login|Freelancers",
-  description: "Please login to access the Community app for freelancers.",
-};
+import { useState } from "react"
+import Image from "next/image"
+import { LoginForm } from "@/components/auth/login-form"
+import { RegisterForm } from "@/components/auth/register-from"
+import { Button } from "@/components/ui/button"
 
-export default function login() {
+export default function AuthPage() {
+  const [isLogin, setIsLogin] = useState(true)
+
   return (
-    <div className="h-screen w-screen flex justify-center items-center flex-col">
-      <div className="flex flex-col justify-center items-center mb-4">
-        <Image src="/images/logo_512.png" width={100} height={100} alt="logo" />
-        <p className="font-bold text-xl">Freelancers</p>
-        <p>A community of freelancers</p>
-      </div>
+    <div className="flex min-h-screen w-full items-center justify-center p-6 md:p-10">
+      <div className="w-full max-w-sm flex flex-col items-center gap-6">
 
-      <Tabs defaultValue="login" className="w-full md:w-[500px] px-2">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="login">Login</TabsTrigger>
-          <TabsTrigger value="register">Register</TabsTrigger>
-        </TabsList>
-        <TabsContent value="login">
-          <Suspense fallback={<Loading />}>
-            <Login />
-          </Suspense>
-        </TabsContent>
-        <TabsContent value="register">
-          <Register />
-        </TabsContent>
-      </Tabs>
+        {/* Image */}
+        <Image
+          src="/images/logo_512.png" // fill later
+          alt="auth image"
+          width={100}
+          height={100}
+        />
+
+        {/* Form */}
+        {isLogin ? <LoginForm /> : <RegisterForm />}
+
+        {/* Toggle */}
+        <Button
+          variant="ghost"
+          onClick={() => setIsLogin(!isLogin)}
+          className="w-full"
+        >
+          {isLogin
+            ? "Don't have an account? Register"
+            : "Already have an account? Login"}
+        </Button>
+      </div>
     </div>
-  );
+  )
 }
