@@ -17,6 +17,11 @@ import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import { registerAction } from "@/action/authActions"
 
+const initState = {
+    status: 0,
+    error: {}
+}
+
 export function RegisterForm({
     className,
     ...props
@@ -45,29 +50,39 @@ export function RegisterForm({
                         <FieldGroup>
                             <Field>
                                 <FieldLabel htmlFor="name">Full Name</FieldLabel>
-                                <Input id="name" type="text" name="name" required />
+                                <Input id="name" type="text" name="name" 
+                                 />
                             </Field>
 
                             <Field>
                                 <FieldLabel htmlFor="usernmae">Username</FieldLabel>
-                                <Input id="name" type="text" name="username" required />
+                                <Input id="name" type="text" name="username" 
+                                 />
                             </Field>
 
                             <Field>
                                 <FieldLabel htmlFor="email">Email</FieldLabel>
-                                <Input id="email" type="email" name="email" required />
-                            </Field>
+                                <Input id="email" type="email" name="email" 
+                                 />
+                            </Field>    
 
                             <Field>
                                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                                <Input id="password" type="password" name="password" required />
+                                <Input id="password" type="password" name="password" 
+                                 />
                             </Field>
 
                             <Field>
-                                <FieldLabel htmlFor="confirmPassword">
+                                <FieldLabel htmlFor="password_confirmation">
                                     Confirm Password
                                 </FieldLabel>
-                                <Input id="confirmPassword" type="password" required />
+                                <Input
+                                    id="confirmPassword"
+                                    type="password"
+                                    name="password_confirmation"  // ✅ MUST be this
+                                    
+                                    
+                                />
                             </Field>
 
                             <Field className="flex flex-col gap-2">
