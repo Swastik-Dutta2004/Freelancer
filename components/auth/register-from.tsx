@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,29 +16,27 @@ import {
     FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import Image from "next/image"
 import { registerAction } from "@/action/authActions"
+import { useActionState } from "react"
 
 const initState = {
     status: 0,
-    error: {}
+    error: null
 }
 
 export function RegisterForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
+
+    const [state, formAction] = useActionState(registerAction, {
+        status: 0,
+        error: null
+    })
+
     return (
         <div className={cn("flex flex-col gap-6 w-full", className)} {...props}>
-            {/* Logo */}
-            <div className="flex flex-col items-center text-center">
-                <p className="font-bold text-lg mt-2">Freelancer</p>
-                <p className="text-sm text-muted-foreground">
-                    Create your account
-                </p>
-            </div>
 
-            {/* Card */}
             <Card className="w-full">
                 <CardHeader className="text-center">
                     <CardTitle>Create an account</CardTitle>
@@ -46,55 +46,76 @@ export function RegisterForm({
                 </CardHeader>
 
                 <CardContent>
-                    <form action={registerAction}>
+                    <form action={formAction}>
                         <FieldGroup>
+
+                            {/* NAME */}
                             <Field>
                                 <FieldLabel htmlFor="name">Full Name</FieldLabel>
-                                <Input id="name" type="text" name="name" 
-                                 />
+                                <Input id="name" type="text" name="name" />
+                                <span className="text-red-600 text-sm">
+                                    {state.error?.name}
+                                </span>
                             </Field>
 
+                            {/* USERNAME */}
                             <Field>
-                                <FieldLabel htmlFor="usernmae">Username</FieldLabel>
-                                <Input id="name" type="text" name="username" 
-                                 />
+                                <FieldLabel htmlFor="username">Username</FieldLabel>
+                                <Input id="username" type="text" name="username" />
+                                <span className="text-red-600 text-sm">
+                                    {state.error?.username}
+                                </span>
                             </Field>
 
+                            {/* EMAIL */}
                             <Field>
                                 <FieldLabel htmlFor="email">Email</FieldLabel>
-                                <Input id="email" type="email" name="email" 
-                                 />
-                            </Field>    
-
-                            <Field>
-                                <FieldLabel htmlFor="password">Password</FieldLabel>
-                                <Input id="password" type="password" name="password" 
-                                 />
+                                <Input id="email" type="email" name="email" />
+                                <span className="text-red-600 text-sm">
+                                    {state.error?.email}
+                                </span>
                             </Field>
 
+                            {/* PASSWORD */}
+                            <Field>
+                                <FieldLabel htmlFor="password">Password</FieldLabel>
+                                <Input id="password" type="password" name="password" />
+                                <span className="text-red-600 text-sm">
+                                    {state.error?.password}
+                                </span>
+                            </Field>
+
+                            {/* CONFIRM PASSWORD */}
                             <Field>
                                 <FieldLabel htmlFor="password_confirmation">
                                     Confirm Password
                                 </FieldLabel>
                                 <Input
-                                    id="confirmPassword"
+                                    id="password_confirmation"
                                     type="password"
-                                    name="password_confirmation"  // ✅ MUST be this
-                                    
-                                    
+                                    name="password_confirmation"
                                 />
+                                <span className="text-red-600 text-sm">
+                                    {state.error?.password_confirmation}
+                                </span>
                             </Field>
 
+                            {/* BUTTONS */}
                             <Field className="flex flex-col gap-2">
                                 <Button className="w-full">Register</Button>
-                                <Button variant="outline" className="w-full">
-                                    Sign up with Google
-                                </Button>
+
+                                {/* GENERAL ERROR */}
+                                {state.error?.general && (
+                                    <p className="text-red-600 text-center text-sm">
+                                        {state.error.general}
+                                    </p>
+                                )}
 
                                 <FieldDescription className="text-center">
                                     Already have an account? <a href="#">Login</a>
                                 </FieldDescription>
                             </Field>
+
                         </FieldGroup>
                     </form>
                 </CardContent>
