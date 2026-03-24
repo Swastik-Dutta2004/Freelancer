@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { registerAction } from "@/action/authActions"
 import { useActionState } from "react"
+import AuthSubmitBtn from "./AuthSubmitBtn"
 
 const initState = {
     status: 0,
@@ -102,7 +103,7 @@ export function RegisterForm({
 
                             {/* BUTTONS */}
                             <Field className="flex flex-col gap-2">
-                                <Button className="w-full">Register</Button>
+                                <AuthSubmitBtn/>
 
                                 {/* GENERAL ERROR */}
                                 {state.error?.general && (
